@@ -77,16 +77,33 @@ function! TodoFoldLevel(lnum)
     " function we will return 1 for the completed tasks (they will be at the
     " first folding level) while for the other lines 0 will be returned,
     " indicating that they do not fold.
-    return match(getline(a:lnum),'^[xX]\s.\+$') + 1
+    let l:line = getline(a:lnum)
+    if l:line =~'^[xX]\s'
+        return 1
+    elseif l:line =~ '^+[^[:blank:]]\+$'
+        return '>1'
+    elseif l:line =~ '^\s\+\S' && getline(a:lnum - 1) =~ '^\(\s\+\S\|+[^[:blank:]]\+$\)' 
+        if getline(a:lnum+1) =~ '^\s\+\S'
+            return 1
+        else
+            return '<1'
+        endif
+    endif
+    return 0
 endfunction
 
 " TodoFoldText() {{{2
 function! TodoFoldText()
     " The text displayed at the fold is formatted as '+- N Completed tasks'
     " where N is the number of lines folded.
-    return '+' . v:folddashes . ' '
-                \ . (v:foldend - v:foldstart + 1)
-                \ . ' Completed tasks '
+    if getline(v:foldstart) =~ '^[xX]\s'
+        return '+' . v:folddashes . ' '
+                    \ . (v:foldend - v:foldstart + 1)
+                    \ . ' Completed tasks '
+    else
+        return '+' . v:folddashes . ' '
+                    \ . (v:foldend - v:foldstart)
+                    \ . ' tasks for ' . getline(v:foldstart)
 endfunction
 
 " Restore context {{{1
