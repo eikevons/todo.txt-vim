@@ -69,22 +69,21 @@ setlocal foldtext=TodoFoldText()
 
 " TodoFoldLevel(lnum) {{{2
 function! TodoFoldLevel(lnum)
-    " The match function returns the index of the matching pattern or -1 if
-    " the pattern doesn't match. In this case, we always try to match a
-    " completed task from the beginning of the line so that the matching
-    " function will always return -1 if the pattern doesn't match or 0 if the
-    " pattern matches. Incrementing by one the value returned by the matching
-    " function we will return 1 for the completed tasks (they will be at the
-    " first folding level) while for the other lines 0 will be returned,
-    " indicating that they do not fold.
+    " Fold consecutive done tasks and tasks grouped by project (i.e. a project
+    " only line followed by indented lines).
     let l:line = getline(a:lnum)
+    " Done task
     if l:line =~'^[xX]\s'
         return 1
-    elseif l:line =~ '^+[^[:blank:]]\+$'
+    " Beginning of project group
+    elseif l:line =~ '^+[^[:blank:]]\+$' && getline(a:lnum + 1) =~ '^\s\+\S'
         return '>1'
+    " Inside project group
     elseif l:line =~ '^\s\+\S' && getline(a:lnum - 1) =~ '^\(\s\+\S\|+[^[:blank:]]\+$\)' 
+        " Continuation of project group
         if getline(a:lnum+1) =~ '^\s\+\S'
             return 1
+        " End of project group
         else
             return '<1'
         endif
@@ -94,12 +93,14 @@ endfunction
 
 " TodoFoldText() {{{2
 function! TodoFoldText()
-    " The text displayed at the fold is formatted as '+- N Completed tasks'
-    " where N is the number of lines folded.
+    " For folded completed tasks:
+    "     The text displayed at the fold is formatted as '+- N Completed tasks'
+    "     where N is the number of lines folded.
     if getline(v:foldstart) =~ '^[xX]\s'
         return '+' . v:folddashes . ' '
                     \ . (v:foldend - v:foldstart + 1)
                     \ . ' Completed tasks '
+    " For folded project group: '+- N tasks for PROJECT'
     else
         return '+' . v:folddashes . ' '
                     \ . (v:foldend - v:foldstart)
