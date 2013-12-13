@@ -15,16 +15,10 @@ set cpo&vim
 " created or edited.
 setlocal textwidth=0
 setlocal wrapmargin=0
+setlocal shiftwidth=2
 
 " Mappings {{{1
 " Sort tasks {{{2
-if !hasmapto("<leader>s",'n')
-    nnoremap <script> <silent> <buffer> <leader>s :sort<CR>
-endif
-
-if !hasmapto("<leader>S",'n')
-    nnoremap <script> <silent> <buffer> <leader>S :%!sort-int<CR>
-endif
 
 
 " Insert date {{{2
@@ -40,25 +34,21 @@ if !hasmapto("<leader>d",'v')
     vnoremap <script> <silent> <buffer> <leader>d c<C-R>=strftime("%Y-%m-%d")<CR><Esc>
 endif
 
-if !hasmapto("<leader>X",'n')
-    nnoremap <script> <silent> <buffer> <leader>X Ix <Esc>
-endif
-
 if !hasmapto("<leader>t",'n')
     nnoremap <script> <silent> <buffer> <leader>t A due: <ESC>"=strftime("%Y-%m-%d")<CR>P
 endif
 
-if !hasmapto("<leader>P",'n')
-    nnoremap <script> <silent> <buffer> <leader>P :.! today-int postpone 1<CR>
-endif
+" if !hasmapto("<leader>P",'n')
+    " nnoremap <script> <silent> <buffer> <leader>P :.! today-int postpone 1<CR>
+" endif
 
-if !hasmapto("<leader>C",'n')
-    nnoremap <script> <silent> <buffer> <leader>C :.! today-int complete<CR>
-endif
+" if !hasmapto("<leader>C",'n')
+    " nnoremap <script> <silent> <buffer> <leader>C :.! today-int complete<CR>
+" endif
 
 " Mark done {{{2
-if !hasmapto("<leader>D",'n')
-    nnoremap <script> <silent> <buffer> <leader>D ix  <ESC>"=strftime("%Y-%m-%d")<CR>P
+if !hasmapto("<leader>x",'n')
+    nnoremap <script> <silent> <buffer> <leader>x Ix <Esc>
 endif
 
 " Folding {{{1
