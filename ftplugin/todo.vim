@@ -1,9 +1,9 @@
-" File:        todo.txt.vim
-" Description: Todo.txt filetype detection
+" File:        todo.txt-vim/ftplugin/todo.vim
+" Description: Todo.txt filetype plugin
 " Author:      Leandro Freitas <freitass@gmail.com>
+"              Eike von Seggern <eikevons@yahoo.de>
 " Licence:     Vim licence
-" Website:     http://github.com/freitass/todo.txt.vim
-" Version:     0.4
+" Website:     http://github.com/eikevons/todo.txt-vim
 
 " Save context {{{1
 let s:save_cpo = &cpo
@@ -51,6 +51,10 @@ endif
 " Mark done {{{2
 if !hasmapto("<leader>x",'n')
     nnoremap <script> <silent> <buffer> <leader>x Ix <Esc>
+endif
+
+if !hasmapto("<leader>D",'n')
+    nnoremap <script> <silent> <buffer> <leader>D Ix <C-R>=strftime("%Y-%m-%d")<CR> <Esc>
 endif
 
 " Restore context {{{1

@@ -1,14 +1,18 @@
-### Quick install
+### About
 
-    git clone git://github.com/kayrick/todo.txt-vim.git
-    cd todo.txt-vim
-    cp -R * ~/.vim
+This plugin gives syntax highlighting to [todo.txt](http://todotxt.com/) files.
 
+In contrast to the original todo.txt definition, in this version the syntax
+allows nesting of projects or contexts, e.g.
 
-This plugin gives syntax highlighting to [todo.txt](http://todotxt.com/) files. It also defines a few
-mappings, to help with edition of these files:
+    @office
+      (A) an important office task
+      call someone
+    x done task
+    +world-peace
+      ...
 
-`<leader>-s` : Sort the file
+It also defines a few mappings, to help with edition of these files:
 
 `<leader>-d` : Insert the current date
 
@@ -16,20 +20,14 @@ mappings, to help with edition of these files:
 
 `date<tab>` : (Insert mode) Insert the current date
 
-The following mapping require [todo.txt support scripts](http://github.com/kayrick/todo-txt.git):
+`<leader>-x` : Mark current task as completed
 
-`<leader>-S` : Sort the file according to task due date
+### Quick install
 
-`<leader>-X` : Mark current task as completed
+    git clone git://github.com/eikevons/todo.txt-vim.git
+    cd todo.txt-vim
+    cp -R * ~/.vim
 
-`<leader>-P` : Postpone current task
-
-`<leader>-C` : Update task due date if task is recurrent. Otherwise mark it as completed
-
-`<leader>-t` : Mark task as due today
-
-All these commands assume, that task due date is specified as `due:yyyy-mm-dd` and task recurrent interval
-is specified as `rec:[0-9]+[dwmy]`
-
-If you want the help installed run ":helptags ~/.vim/doc" inside vim after having copied the files.
-Then you will be able to get the commands help with: :h todo.txt
+If you want the help installed run ":helptags ~/.vim/doc" inside vim after
+having copied the files. Then you will be able to get the commands help with:
+:h todo.txt

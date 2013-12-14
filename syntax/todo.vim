@@ -1,9 +1,9 @@
-" File:        todo.txt.vim
+" File:        todo.txt-vim/syntax/todo.vim
 " Description: Todo.txt syntax settings
 " Author:      Leandro Freitas <freitass@gmail.com>
+"              Eike von Seggern <eikevons@yahoo.de>
 " Licence:     Vim licence
-" Website:     http://github.com/freitass/todo.txt.vim
-" Version:     0.3
+" Website:     http://github.com/eikevons/todo.txt-vim
 
 if exists("b:current_syntax")
     finish
@@ -69,9 +69,5 @@ syntax region todoGroupNested
   \ skip="^\s*$"
   \ end="^\%(\z1\s\)\@!"
   \ fold transparent
-
-  " \ end="\%(\z1\s\)\@!"
-
-  " \ end="\%(^$\|\ze\%(\s*\n\)\+\%(\z1\s\)\@!.\)"
 
 let b:current_syntax = "todo"
