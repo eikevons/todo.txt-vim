@@ -3,27 +3,12 @@
 ==============================================================================
 COMMANDS                                                       *todo-commands*
 
-`<Leader>-s` : Sort the file
-
 `<Leader>-d` : Insert the current date
 
 `<Leader>-D` : Insert the current date with leading `x` (completed)
 
 `date<tab>` : (Insert mode) Insert the current date
 
-The following mapping require todo.txt support scripts:
-
-`<leader>-S` : Sort the file according to task due date
-
-`<leader>-X` : Mark current task as completed
-
-`<leader>-P` : Postpone current task
-
-`<leader>-C` : Update task due date if task is recurrent. Otherwise mark it as completed
-
-`<leader>-t` : Mark task as due today
-
-All these commands assume, that task due date is specified as `due:yyyy-mm-dd` and task recurrent interval
-is specified as `rec:[0-9]+[dwmy]`
+`<leader>-x` : Mark current task as completed
 
 <Leader> is \ by default, so <Leader>-s means you type \s
