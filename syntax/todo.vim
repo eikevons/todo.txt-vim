@@ -37,8 +37,8 @@ syntax  match  TodoPriorityX  '^\s*([xX])\s.\+$'            contains=TodoDate,To
 syntax  match  TodoPriorityY  '^\s*([yY])\s.\+$'            contains=TodoDate,TodoProject,TodoContext,TodoDue,TodoRec
 syntax  match  TodoPriorityZ  '^\s*([zZ])\s.\+$'            contains=TodoDate,TodoProject,TodoContext,TodoDue,TodoRec
 syntax  match  TodoDate       '\d\{2,4\}-\d\{2\}-\d\{2\}' contains=NONE
-syntax  match  TodoProject    '+[^[:blank:]]\+'          contains=NONE
-syntax  match  TodoContext    '@[^[:blank:]]\+'          contains=NONE
+syntax  match  TodoProject    '+[^+@[:blank:]]\+'          contains=NONE
+syntax  match  TodoContext    '@[^+@[:blank:]]\+'          contains=NONE
 syntax  match  TodoDue        'due:'                     contains=NONE
 syntax  match  TodoRec        'rec:\d\{1,\}[dwmy]'       contains=NONE
 
@@ -52,5 +52,26 @@ highlight  default  link  TodoProject    Special
 highlight  default  link  TodoContext    Special
 highlight  default  link  TodoRec    Type
 highlight  default  link  TodoDue    Type
+
+setlocal fdm=syntax
+syntax region todotxtDoneFold
+  \ start="^[xX]\s"
+  \ end="^[xX]\s.*\n\%([^xX].*\)\?$"
+  \ fold transparent
+
+syntax region todoGroupToplevel
+  \ start="^[+@][^+@[:blank:]]\+$"
+  \ end="\ze\n\S"
+  \ fold transparent
+
+syntax region todoGroupNested
+  \ start="^\z(\s\+\)\%([+@][^+@[:blank:]]\+\)$"
+  \ skip="^\s*$"
+  \ end="^\%(\z1\s\)\@!"
+  \ fold transparent
+
+  " \ end="\%(\z1\s\)\@!"
+
+  " \ end="\%(^$\|\ze\%(\s*\n\)\+\%(\z1\s\)\@!.\)"
 
 let b:current_syntax = "todo"
