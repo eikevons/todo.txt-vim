@@ -53,21 +53,21 @@ highlight  default  link  TodoContext    Special
 highlight  default  link  TodoRec    Type
 highlight  default  link  TodoDue    Type
 
-setlocal fdm=syntax
-syntax region todotxtDoneFold
-  \ start="^[xX]\s"
-  \ end="^[xX]\s.*\n\%([^xX].*\)\?$"
-  \ fold transparent
+" setlocal fdm=syntax
+" syntax region todotxtDoneFold
+  " \ start="^\z(\s*[xX]\s\)"
+  " \ end="^\z1\@!"
+  " \ fold transparent contains=ALLBUT,todotxtDoneFold
 
-syntax region todoGroupToplevel
-  \ start="^[+@][^+@[:blank:]]\+$"
-  \ end="\ze\n\S"
-  \ fold transparent
+" syntax region todoGroupToplevel
+  " \ start="^[+@][^+@[:blank:]]\+$"
+  " \ end="\ze\n\S"
+  " \ fold transparent
 
-syntax region todoGroupNested
-  \ start="^\z(\s\+\)\%([+@][^+@[:blank:]]\+\)$"
-  \ skip="^\s*$"
-  \ end="^\%(\z1\s\)\@!"
-  \ fold transparent
+" syntax region todoGroupNested
+  " \ start="^\z(\s\+\)\%([+@][^+@[:blank:]]\+\)$"
+  " \ skip="^\s*$"
+  " \ end="\ze\n\%(\z1.\+\)\@!"
+  " \ fold transparent
 
 let b:current_syntax = "todo"

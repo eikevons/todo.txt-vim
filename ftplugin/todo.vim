@@ -5,6 +5,13 @@
 " Licence:     Vim licence
 " Website:     http://github.com/eikevons/todo.txt-vim
 
+" Prevent multiple execution
+if exists('b:did_ftplugin')
+    finish
+else
+    let b:did_ftplugin = 1
+endif
+
 " Save context {{{1
 let s:save_cpo = &cpo
 set cpo&vim
@@ -57,6 +64,47 @@ if !hasmapto("<leader>D",'n')
     nnoremap <script> <silent> <buffer> <leader>D Ix <C-R>=strftime("%Y-%m-%d")<CR> <Esc>
 endif
 
+" Folding {{{1
+function! TodoFold(lnum)
+    let l:line = getline(a:lnum)
+    if l:line =~ '^\s*$'
+        return '-1'
+    endif
+    let l:ind = indent(a:lnum)
+
+
+    if l:line =~ '^\s*[@+][^@+[:blank:]]\+$'
+        return '>'. ( l:ind / &shiftwidth + 1)
+    elseif l:line =~? '^\s*x\s.*$'
+        if getline(a:lnum - 1) !~? '^\s*x\s.' && getline(a:lnum + 1) =~? '^\s*x\s.' 
+            return '>'. ( l:ind / &shiftwidth + 1)
+        else
+            return  l:ind / &shiftwidth + 1
+        endif
+    else
+        return l:ind / &shiftwidth
+    endif
+
+    return '-1'
+endfun
+
+function TodoFoldText()
+    let l:line = getline(v:foldstart)
+    if l:line =~? '^\s*x\s.'
+        let l:desc = (v:foldend - v:foldstart + 1) . ' done tasks'
+    else
+        " Note: Folds start only at done tasks or at task groups so we do not need to
+        " check explicetly if were in a task group.
+        " elseif l:line =~? '^\s*[@+]'
+        let l:desc = substitute(l:line, '\s', '', 'g') . ' (' . (v:foldend - v:foldstart) . ' tasks)'
+    endif
+
+    return v:folddashes . ' ' . l:desc
+endfun
+
+setlocal foldexpr=TodoFold(v:lnum)
+setlocal foldtext=TodoFoldText()
+setlocal foldmethod=expr
 " Restore context {{{1
 let &cpo = s:save_cpo
 " Modeline {{{1
