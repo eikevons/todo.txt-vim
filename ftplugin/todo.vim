@@ -73,10 +73,14 @@ function! TodoFold(lnum)
     let l:ind = indent(a:lnum)
 
 
+    " line contains only a context/project -> new task group
     if l:line =~ '^\s*[@+][^@+[:blank:]]\+$'
         return '>'. ( l:ind / &shiftwidth + 1)
+    " line contains a done task
     elseif l:line =~? '^\s*x\s.*$'
-        if getline(a:lnum - 1) !~? '^\s*x\s.' && getline(a:lnum + 1) =~? '^\s*x\s.' 
+        " previous line is an undone task and next line is a done task ->
+        " start done's-fold
+        if l:ind < indent(a:lnum - 1) || getline(a:lnum - 1) !~? '^\s*x\s.' && getline(a:lnum + 1) =~? '^\s*x\s.' 
             return '>'. ( l:ind / &shiftwidth + 1)
         else
             return  l:ind / &shiftwidth + 1
