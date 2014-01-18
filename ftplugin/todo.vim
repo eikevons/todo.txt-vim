@@ -25,6 +25,7 @@ setlocal wrapmargin=0
 setlocal shiftwidth=2
 setlocal softtabstop=2 " negative -> use value of shiftwidth
 setlocal autoindent
+setlocal iskeyword+=+,@-@  " includ3 prefixes for project/context for keyword completion
 
 " Mappings {{{1
 " Sort tasks {{{2
