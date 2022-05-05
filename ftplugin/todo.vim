@@ -95,7 +95,7 @@ endfun
 
 function TodoFoldText()
     let l:line = getline(v:foldstart)
-    if l:line =~? '^\s*x\s.'
+    if l:line =~? '^\s*[x\~]\s.'
         let l:desc = (v:foldend - v:foldstart + 1) . ' done tasks'
     else
         " Note: Folds start only at done tasks or at task groups so we do not need to
